@@ -1,0 +1,32 @@
+﻿@using SAPBlazorAnimate
+
+@if (Index % 5 == 0)
+{
+    <a class="portfolio-item double-height">
+        <svg class="img-fluid" viewBox="0 0 250 515">
+            <rect width="250" height="515" style="fill: gray"></rect>
+        </svg>
+    </a>
+}
+else if (Index % 7 == 0)
+{
+    <a class="portfolio-item double-width">
+        <svg class="img-fluid" viewBox="0 0 515 250">
+            <rect width="515" height="250" style="fill: gray"></rect>
+        </svg>
+    </a>
+}
+else
+{
+    <a class="portfolio-item">
+        <svg class="img-fluid" viewBox="0 0 250 250">
+            <rect width="250" height="250" style="fill: gray"></rect>
+        </svg>
+    </a>
+}
+
+
+@code {
+    [Parameter]
+    public int Index { get; set; }
+}

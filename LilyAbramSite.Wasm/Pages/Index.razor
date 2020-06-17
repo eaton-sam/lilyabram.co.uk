@@ -1,0 +1,75 @@
+﻿@page "/"
+@page "/{uid}"
+@using SAPBlazorAnimate
+@inject IPrismicService Service
+@inject NavigationManager NavigationManager
+
+<div class="portfolio">
+    @if (Projects != null)
+    {
+        @foreach (var project in Projects)
+        {
+            <a class="portfolio-item @project.ThumbnailClass" href="/@project.Uid">
+                <img src="@project.ThumbnailUrl" class="img-fluid" alt="@project.Name" />
+            </a>
+        }
+    }
+    else
+    {
+        for (var i = 1; i < 14; i++)
+        {
+            <Placeholder Index="i" />
+        }
+    }
+</div>
+
+@if (Current != null)
+{
+    <div class="overlay @CurrentAnimClass">
+        <a class="overlay-closer" href="/" @onclick:preventDefault @onclick="Home">
+            <svg class="bi bi-chevron-bar-right shadow-filter animated fadeIn delay-1s" viewBox="0 0 16 16" fill="white" xmlns="http://www.w3.org/2000/svg">
+                <path fill-rule="evenodd" d="M4.146 3.646a.5.5 0 000 .708L7.793 8l-3.647 3.646a.5.5 0 00.708.708l4-4a.5.5 0 000-.708l-4-4a.5.5 0 00-.708 0zM11.5 1a.5.5 0 01.5.5v13a.5.5 0 01-1 0v-13a.5.5 0 01.5-.5z" clip-rule="evenodd" />
+            </svg>
+        </a>
+        <div class="overlay-inner">
+            <ProjectView Project="Current" />
+        </div>
+    </div>
+}
+
+
+@code {
+    [Parameter]
+    public string Uid { get; set; }
+
+    IList<Project> Projects { get; set; }
+    Project Current { get; set; }
+
+    string CurrentAnimClass { get; set; } = AnimateBook.SlidingEntrances.SlideInRight;
+
+    protected override async Task OnInitializedAsync()
+    {
+        Projects = await Service.GetProjects();
+    }
+
+
+    protected override async Task OnParametersSetAsync()
+    {
+        if (!string.IsNullOrEmpty(Uid))
+        {
+            Current = await Service.GetProject(Uid);
+        }
+        else
+        {
+            Current = null;
+        }
+    }
+
+    protected async Task Home()
+    {
+        CurrentAnimClass = AnimateBook.SlidingExits.SlideOutRight;
+        await Task.Delay(1000);
+        NavigationManager.NavigateTo("/");
+        CurrentAnimClass = AnimateBook.SlidingEntrances.SlideInRight;
+    }
+}

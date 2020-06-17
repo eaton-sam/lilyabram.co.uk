@@ -1,0 +1,59 @@
+﻿@using SAPBlazorAnimate
+@inherits LayoutComponentBase
+
+<nav class="navbar-dark">
+    <div class="container-fluid d-flex flex-row justify-content-between">
+        <button class="navbar-toggler mx-0 mt-0 mb-auto" type="button" data-toggle="collapse" aria-controls="sidebar-content" aria-expanded="@SidebarVisible" aria-label="Toggle navigation"
+                @onclick="SidebarToggle">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        @if (SidebarVisible)
+        {
+            <div id="sidebar-content" class="@SidebarCssClass">
+                <div class="d-md-flex col-lg-8 col-xl-6">
+                    <div class="px-3">
+                        @About
+                    </div>
+                    <div class="px-3">
+                        @Contact
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</nav>
+
+<main class="container-fluid">
+    @Body
+</main>
+
+@code {
+    MarkupString About { get; set; }
+    MarkupString Contact { get; set; }
+
+    bool SidebarVisible { get; set; }
+    string SidebarCssClass { get; set; } = AnimateBook.FadingEntrances.FadeInDown;
+
+    protected override async Task OnInitializedAsync()
+    {
+        About = (MarkupString)(await Globals).About;
+        Contact = (MarkupString)(await Globals).Contact;
+    }
+
+    private async void SidebarToggle()
+    {
+        if(SidebarVisible)
+        {
+            SidebarCssClass = AnimateBook.FadingExits.FadeOutUp;
+            await Task.Delay(1000);
+            SidebarVisible = false;
+        }
+        else
+        {
+            SidebarCssClass = AnimateBook.FadingEntrances.FadeInDown;
+            SidebarVisible = true;
+        }
+
+        StateHasChanged();
+    }
+}
