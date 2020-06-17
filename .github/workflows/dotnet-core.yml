@@ -23,3 +23,8 @@ jobs:
       run: dotnet build LilyAbramSite.Wasm/LilyAbramSite.Wasm.csproj --configuration Release --no-restore
     - name: Publish
       run: dotnet publish LilyAbramSite.Wasm/LilyAbramSite.Wasm.csproj -c Release --no-build -o publishOutput
+    - name: Artifacts
+      uses: actions/upload-artifact@v2
+      with:
+        name: webapp
+        path: publishOutput/wwwroot
