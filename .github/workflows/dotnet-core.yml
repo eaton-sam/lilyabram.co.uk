@@ -27,9 +27,11 @@ jobs:
       run: dotnet publish LilyAbramSite.Wasm/LilyAbramSite.Wasm.csproj -c Release --no-build -o publishOutput
       
     - name: Upload to S3
-      uses: shallwefootball/s3-upload-action@master
+      uses: jakejarvis/s3-sync-action@master
       with:
-        aws_key_id: ${{secrets.AWS_ACCESS_KEY_ID}}
-        aws_secret_access_key: ${{secrets.AWS_SECRET_ACCESS_KEY}}
-        aws_bucket: 'lilyabram.co.uk'
-        source_dir: 'publishOutput/wwwroot'
+        args: --acl public-read --follow-symlinks --delete
+      env:
+        AWS_ACCESS_KEY_ID: ${{secrets.AWS_ACCESS_KEY_ID}}
+        AWS_SECRET_ACCESS_KEY: ${{secrets.AWS_SECRET_ACCESS_KEY}}
+        AWS_S3_BUCKET: 'lilyabram.co.uk'
+        SOURCE_DIR: 'publishOutput/wwwroot'
