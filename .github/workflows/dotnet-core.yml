@@ -19,12 +19,17 @@ jobs:
         dotnet-version: 3.1.301
     - name: Install dependencies
       run: dotnet restore LilyAbramSite.Wasm/LilyAbramSite.Wasm.csproj
+      
     - name: Build
       run: dotnet build LilyAbramSite.Wasm/LilyAbramSite.Wasm.csproj --configuration Release --no-restore
+      
     - name: Publish
       run: dotnet publish LilyAbramSite.Wasm/LilyAbramSite.Wasm.csproj -c Release --no-build -o publishOutput
-    - name: Artifacts
-      uses: actions/upload-artifact@v2
+      
+    - name: Upload to S3
+      uses: shallwefootball/s3-upload-action@master
       with:
-        name: webapp
-        path: publishOutput/wwwroot
+        aws_key_id: ${{AWS_ACCESS_KEY_ID}}
+        aws_secret_access_key: ${{AWS_SECRET_ACCESS_KEY}}
+        aws_bukect: 'lilyabram.co.uk'
+        source_dir: 'publishOutput/wwwroot'
