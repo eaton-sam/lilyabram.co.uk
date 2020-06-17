@@ -22,4 +22,4 @@ jobs:
     - name: Build
       run: dotnet build LilyAbramSite.Wasm/LilyAbramSite.Wasm.csproj --configuration Release --no-restore
     - name: Publish
-      run: dotnet publish -c Release LilyAbramSite.Wasm/LilyAbramSite.Wasm.csproj
+      run: dotnet publish LilyAbramSite.Wasm/LilyAbramSite.Wasm.csproj -c Release --no-build -o publishOutput
