@@ -31,5 +31,5 @@ jobs:
       with:
         aws_key_id: ${{secrets.AWS_ACCESS_KEY_ID}}
         aws_secret_access_key: ${{secrets.AWS_SECRET_ACCESS_KEY}}
-        aws_bukect: 'lilyabram.co.uk'
+        aws_bucket: 'lilyabram.co.uk'
         source_dir: 'publishOutput/wwwroot'
