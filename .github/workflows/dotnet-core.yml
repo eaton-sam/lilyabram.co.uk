@@ -29,7 +29,7 @@ jobs:
     - name: Upload to S3
       uses: shallwefootball/s3-upload-action@master
       with:
-        aws_key_id: ${{AWS_ACCESS_KEY_ID}}
-        aws_secret_access_key: ${{AWS_SECRET_ACCESS_KEY}}
+        aws_key_id: ${{secrets.AWS_ACCESS_KEY_ID}}
+        aws_secret_access_key: ${{secrets.AWS_SECRET_ACCESS_KEY}}
         aws_bukect: 'lilyabram.co.uk'
         source_dir: 'publishOutput/wwwroot'
