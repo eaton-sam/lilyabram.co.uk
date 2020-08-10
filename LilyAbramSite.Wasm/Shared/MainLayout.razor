@@ -1,5 +1,7 @@
 ﻿@using SAPBlazorAnimate
 @inherits LayoutComponentBase
+@inject NavigationManager NavigationManager
+@inject IJSRuntime JSRuntime;
 
 <nav class="navbar-dark">
     <div class="container-fluid d-flex flex-row justify-content-between">
@@ -38,11 +40,16 @@
     {
         About = (MarkupString)(await Globals).About;
         Contact = (MarkupString)(await Globals).Contact;
+
+        NavigationManager.LocationChanged += (sender, args) =>
+        {
+            JSRuntime.InvokeVoidAsync("locationChange", new Uri(args.Location).PathAndQuery);
+        };
     }
 
     private async void SidebarToggle()
     {
-        if(SidebarVisible)
+        if (SidebarVisible)
         {
             SidebarCssClass = AnimateBook.FadingExits.FadeOutUp;
             await Task.Delay(1000);

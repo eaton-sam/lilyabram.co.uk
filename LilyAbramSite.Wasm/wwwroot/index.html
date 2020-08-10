@@ -10,6 +10,15 @@
 
     <base href="/" />
 
+    <!-- Google Analytics -->
+    <script>
+        window.ga = window.ga || function () { (ga.q = ga.q || []).push(arguments) }; ga.l = +new Date;
+        ga('create', 'UA-84384567-1', 'auto');
+        ga('send', 'pageview');
+    </script>
+    <script async src='https://www.google-analytics.com/analytics.js'></script>
+    <!-- End Google Analytics -->
+
     <link href="_content/SAPBlazorAnimate/animate.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" />
     <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300&family=Libre+Baskerville&display=swap" rel="stylesheet">
@@ -33,6 +42,13 @@
     <script>
         //hack to stop blazor scrolling to top on navigate
         window.scrollTo = null;
+
+        //location change for google analytics
+        function locationChange(location) {
+            console.log(location);
+            ga('set', 'page', location);
+            ga('send', 'pageview');
+        }
     </script>
 </body>
 
