@@ -19,6 +19,16 @@
     <script async src='https://www.google-analytics.com/analytics.js'></script>
     <!-- End Google Analytics -->
 
+
+    <!-- SEO -->
+    <meta name="twitter:card" content="summary" />
+    <!--<meta name="twitter:site" content="@" />-->
+    <!--<meta name="twitter:creator" content="@" />-->
+    <meta name="og:title" content="Lily Abram" />
+    <meta name="og:description" content="Artist and Designer from Sheffield, UK." />
+    <meta name="og:image" content="/img/logo512x512.png" />
+    <!--------->
+
     <link href="_content/SAPBlazorAnimate/animate.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" />
     <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300&family=Libre+Baskerville&display=swap" rel="stylesheet">
@@ -45,7 +55,6 @@
 
         //location change for google analytics
         function locationChange(location) {
-            console.log(location);
             ga('set', 'page', location);
             ga('send', 'pageview');
         }

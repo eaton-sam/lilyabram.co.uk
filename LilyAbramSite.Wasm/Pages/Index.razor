@@ -9,7 +9,7 @@
     {
         @foreach (var project in Projects)
         {
-            <a class="portfolio-item @project.ThumbnailClass" href="/@project.Uid">
+            <a class="portfolio-item @project.ThumbnailClass" href="/@project.Uid" @onclick="() => Navigate(project.Uid)" @onclick:preventDefault>
                 <img src="@project.ThumbnailUrl" class="img-fluid" alt="@project.Name" />
             </a>
         }
@@ -47,17 +47,21 @@
 
     string CurrentAnimClass { get; set; } = AnimateBook.SlidingEntrances.SlideInRight;
 
+    System.Threading.CancellationTokenSource Cancellation { get; set; }
+
     protected override async Task OnInitializedAsync()
     {
         Projects = await Service.GetProjects();
     }
-
 
     protected override async Task OnParametersSetAsync()
     {
         if (!string.IsNullOrEmpty(Uid))
         {
             Current = await Service.GetProject(Uid);
+            CurrentAnimClass = AnimateBook.SlidingEntrances.SlideInRight;
+            Cancellation?.Dispose();
+            Cancellation = new System.Threading.CancellationTokenSource();
         }
         else
         {
@@ -65,11 +69,20 @@
         }
     }
 
+    protected void Navigate(string url)
+    {
+        Cancellation?.Cancel();
+        NavigationManager.NavigateTo(url);
+    }
+
     protected async Task Home()
     {
         CurrentAnimClass = AnimateBook.SlidingExits.SlideOutRight;
-        await Task.Delay(1000);
-        NavigationManager.NavigateTo("/");
-        CurrentAnimClass = AnimateBook.SlidingEntrances.SlideInRight;
+        await Task.Delay(1000, Cancellation.Token);
+
+        if (!Cancellation.Token.IsCancellationRequested)
+        {
+            NavigationManager.NavigateTo("/");
+        }
     }
 }
